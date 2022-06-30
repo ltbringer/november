@@ -2,6 +2,7 @@ export const mapSetup = (map_width, map_height) => {
     const canvas = document.getElementById("canvas");
     canvas.width = map_width;
     canvas.height = map_height;
+    return canvas;
 }
 
 

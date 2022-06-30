@@ -1,9 +1,9 @@
 export const configureKeyPress = (keys) => {
     window.addEventListener("keydown", (e) => {
-        keys[e.key] = true;
+        keys.press(e.key);
     })
-    
+
     window.addEventListener("keyup", (e) => {
-        keys[e.key] = false;
+        keys.release(e.key);
     })
 }

@@ -1,21 +1,33 @@
-const PLAYER_MOVESPEED = 2;
-
 export class Sprite {
-    constructor({ position, velocity, image, width, height, scale }) {
+    constructor({
+        position,
+        image,
+        width,
+        height,
+        cropX = 1,
+        cropY = 1,
+        zoom = 1
+    }) {
         this.position = position;
-        this.velocity = velocity;
+        this.zoom = zoom;
         this.image = image;
-        this.width = width;
-        this.height = height;
-        this.scale = scale;
+        this.width = width * this.zoom;
+        this.height = height * this.zoom;
+        this.cropX = cropX;
+        this.cropY = cropY;
     }
 
     draw(ctx) {
         ctx.drawImage(
             this.image,
+            0,
+            0,
+            this.image.width / this.cropX,
+            this.image.height / this.cropY,
             this.position.x,
-            this.position.y
-        );
+            this.position.y,
+            this.image.width / this.cropX * this.zoom,
+            this.image.height / this.cropY * this.zoom);
         return this;
     }
 
@@ -24,17 +36,5 @@ export class Sprite {
             this.draw(ctx);
         }
         return this;
-    }
-
-    update(keyState) {
-        if (keyState.w) {
-            this.position.y += PLAYER_MOVESPEED
-        } else if (keyState.a) {
-            this.position.x += PLAYER_MOVESPEED
-        } else if (keyState.s) {
-            this.position.y -= PLAYER_MOVESPEED
-        } else if (keyState.d) {
-            this.position.x -= PLAYER_MOVESPEED
-        }
     }
 }

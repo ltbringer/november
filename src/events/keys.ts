@@ -1,4 +1,6 @@
-export const configureKeyPress = (keys) => {
+import { Keys } from "../state";
+
+export const configureKeyPress = (keys: Keys) => {
     window.addEventListener("keydown", (e) => {
         keys.press(e.key);
     })

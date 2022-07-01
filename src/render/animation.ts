@@ -1,19 +1,12 @@
 import { getCtx } from "./canvas";
 import { PLAYER_MOVESPEED } from "../constants";
-import { getColliders } from "./collider";
+import { getColliders, checkCollision } from "./collider";
+import { BoxCollider } from "./collider";
+import { State } from "../state";
+import { Sprite } from "../sprites";
 
 
-const checkCollision = (player, collider, { x, y }) => {
-    const playerPosition = player.position;
-    const colliderPosition = collider.position;
-
-    return ((playerPosition.x + player.width > colliderPosition.x + x) // player is to the right of collider
-    && (playerPosition.x < colliderPosition.x + x + collider.width) // player is to the left of collider
-    && (playerPosition.y + player.height > colliderPosition.y + y) // player is below collider
-    && (playerPosition.y < colliderPosition.y + y + collider.height)) // player is above collider
-}
-
-const motionControl = ({ state, bg, colliders, player }) => {
+const motionControl = ({ state, bg, colliders, player }: { state: State, bg: Sprite, colliders: BoxCollider[], player: Sprite}): void => {
     const { keys } = state;
     let futureKeyState = {x: 0, y: 0}
     if (keys.isPressed(keys.up)) {
@@ -28,7 +21,7 @@ const motionControl = ({ state, bg, colliders, player }) => {
 
     const collisions = colliders.some(collider => checkCollision(player, collider, futureKeyState));
 
-    const moveMobile = (mobile) => {
+    const moveMobile = (mobile: BoxCollider | Sprite) => {
         if (keys.isPressed(keys.up) && !collisions) {
             mobile.position.y += PLAYER_MOVESPEED
         } else if (keys.isPressed(keys.left) && !collisions) {
@@ -43,14 +36,13 @@ const motionControl = ({ state, bg, colliders, player }) => {
     [...colliders, bg].forEach(moveMobile);
 }
 
-export const animationBuilder = ({ bg, player, state }) => {
-    const ctx = getCtx();
-    const sprites = [bg, player];
+export const animationBuilder = ({ bg, player, state, canvas }: { bg: Sprite, player: Sprite, state: State, canvas: HTMLCanvasElement}): () => void => {
+    const ctx: CanvasRenderingContext2D = getCtx(canvas);
+    const sprites: Sprite[] = [bg, player];
     sprites.forEach(sprite => sprite.loadImage(ctx));
     const colliders = getColliders();
-    console.log(player.position.x, player.position.x + player.width);
 
-    const animate = () => {
+    const animate = (): void => {
         bg.draw(ctx);
         colliders.forEach(collider => collider.draw(ctx));
         player.draw(ctx);

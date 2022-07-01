@@ -1,4 +1,12 @@
 export class Sprite {
+    position: { x: number, y: number };
+    zoom: number;
+    image: HTMLImageElement;
+    width: number;
+    height: number;
+    cropX: number;
+    cropY: number;
+
     constructor({
         position,
         image,
@@ -7,6 +15,14 @@ export class Sprite {
         cropX = 1,
         cropY = 1,
         zoom = 1
+    }: {
+        position: { x: number, y: number },
+        image: HTMLImageElement,
+        width: number,
+        height: number,
+        cropX?: number,
+        cropY?: number,
+        zoom?: number
     }) {
         this.position = position;
         this.zoom = zoom;
@@ -17,7 +33,7 @@ export class Sprite {
         this.cropY = cropY;
     }
 
-    draw(ctx) {
+    draw(ctx: CanvasRenderingContext2D): Sprite {
         ctx.drawImage(
             this.image,
             0,
@@ -31,7 +47,8 @@ export class Sprite {
         return this;
     }
 
-    loadImage(ctx) {
+    loadImage(ctx: CanvasRenderingContext2D): Sprite {
+        console.log("loading images");
         this.image.onload = () => {
             this.draw(ctx);
         }

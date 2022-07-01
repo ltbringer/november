@@ -3,7 +3,7 @@ const glob = require('glob');
 
 module.exports = {
   entry: {
-    js: glob.sync("./src/**/*.js"),  
+    ts: glob.sync("./src/**/*.ts"),  
   },
   module: {
     rules: [
@@ -13,9 +13,21 @@ module.exports = {
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: 'asset/resource',
+        type: 'asset/resource'
       },
+      {
+        test: /\.tsx?$/,
+        loader: 'ts-loader',
+        exclude: /node_modules|\.d\.ts$/
+      },
+      {
+          test: /\.d\.ts$/,
+          loader: 'ignore-loader'
+      }
     ],
+  },
+  resolve: {
+    extensions: ['.ts', '.js'],
   },
   devtool: 'inline-source-map',
   mode: "development",

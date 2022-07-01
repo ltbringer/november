@@ -6,11 +6,11 @@ import { Sprite } from "../../sprites";
 export class BoxCollider {
     width: number;
     height: number;
-    position: { x: number, y: number };
+    position: coordinates;
     isCollider: boolean;
     static width = 64;
     static height = 64;
-    constructor({ position }: { position: { x: number, y: number } }) {
+    constructor({ position }: position) {
         this.position = position;
         this.width = BoxCollider.width;
         this.height = BoxCollider.height;
@@ -48,7 +48,7 @@ export const getColliders = (): BoxCollider[] => {
 export const checkCollision = (
     player: Sprite,
     collider: BoxCollider,
-    { x, y }: { x: number, y: number}
+    { x, y }: coordinates
 ): boolean => {
     const playerPosition = player.position;
     const colliderPosition = collider.position;

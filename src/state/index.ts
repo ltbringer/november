@@ -1,5 +1,6 @@
 import { PLAYER_MOVESPEED } from "../constants";
 
+type DirectionKeyArgs = { up: string, down: string, left: string, right: string };
 
 export class Keys {
     up: string
@@ -9,7 +10,7 @@ export class Keys {
     pressed: { [key: string]: boolean }
     motion: { [key: string]: [string, number] }
     lastKey: string | null
-    constructor({ up, down, left, right }: { up: string, down: string, left: string, right: string }) {
+    constructor({ up, down, left, right }: DirectionKeyArgs) {
         this.up = up
         this.down = down
         this.left = left
@@ -46,7 +47,7 @@ export class Keys {
 
 export class State {
     keys: Keys
-    constructor({ keys }: { keys: { up: string, down: string, left: string, right: string } }) {
+    constructor({ keys }: { keys: DirectionKeyArgs }) {
         this.keys = new Keys(keys)
     }
 }

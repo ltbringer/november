@@ -1,5 +1,5 @@
 export class Sprite {
-    position: { x: number, y: number };
+    position: coordinates;
     zoom: number;
     image: HTMLImageElement;
     width: number;
@@ -15,15 +15,7 @@ export class Sprite {
         cropX = 1,
         cropY = 1,
         zoom = 1
-    }: {
-        position: { x: number, y: number },
-        image: HTMLImageElement,
-        width: number,
-        height: number,
-        cropX?: number,
-        cropY?: number,
-        zoom?: number
-    }) {
+    }: SpriteArgs) {
         this.position = position;
         this.zoom = zoom;
         this.image = image;

@@ -5,10 +5,12 @@ import { BoxCollider } from "./collider";
 import { State } from "../state";
 import { Sprite } from "../sprites";
 
+type MotionControlArgs = { state: State, bg: Sprite, colliders: BoxCollider[], player: Sprite}
+type AnimationBuilderArgs = { bg: Sprite, player: Sprite, state: State, canvas: HTMLCanvasElement}
 
-const motionControl = ({ state, bg, colliders, player }: { state: State, bg: Sprite, colliders: BoxCollider[], player: Sprite}): void => {
+const motionControl = ({ state, bg, colliders, player }: MotionControlArgs): void => {
     const { keys } = state;
-    let futureKeyState = {x: 0, y: 0}
+    let futureKeyState: coordinates = {x: 0, y: 0}
     if (keys.isPressed(keys.up)) {
         futureKeyState.y = PLAYER_MOVESPEED;
     } else if (keys.isPressed(keys.left)) {
@@ -19,7 +21,7 @@ const motionControl = ({ state, bg, colliders, player }: { state: State, bg: Spr
         futureKeyState.x = -PLAYER_MOVESPEED;
     }
 
-    const collisions = colliders.some(collider => checkCollision(player, collider, futureKeyState));
+    const collisions = colliders.some((collider: BoxCollider) => checkCollision(player, collider, futureKeyState));
 
     const moveMobile = (mobile: BoxCollider | Sprite) => {
         if (keys.isPressed(keys.up) && !collisions) {
@@ -36,7 +38,7 @@ const motionControl = ({ state, bg, colliders, player }: { state: State, bg: Spr
     [...colliders, bg].forEach(moveMobile);
 }
 
-export const animationBuilder = ({ bg, player, state, canvas }: { bg: Sprite, player: Sprite, state: State, canvas: HTMLCanvasElement}): () => void => {
+export const animationBuilder = ({ bg, player, state, canvas }: AnimationBuilderArgs): () => void => {
     const ctx: CanvasRenderingContext2D = getCtx(canvas);
     const sprites: Sprite[] = [bg, player];
     sprites.forEach(sprite => sprite.loadImage(ctx));

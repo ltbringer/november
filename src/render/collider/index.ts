@@ -45,16 +45,28 @@ export const getColliders = (): BoxCollider[] => {
     return colliders;
 }
 
+/**
+ *          _____ _____
+ *          | P | | C |
+ *          ‾‾‾‾‾ ‾‾‾‾‾
+ *         
+ * @param player 
+ * @param collider 
+ * @param param2 
+ * @param tolerance 
+ * @returns 
+ */
 export const checkCollision = (
     player: Sprite,
     collider: BoxCollider,
-    { x, y }: coordinates
+    { x, y }: coordinates,
+    tolerance: number = 16
 ): boolean => {
     const playerPosition = player.position;
     const colliderPosition = collider.position;
 
-    return ((playerPosition.x + player.width > colliderPosition.x + x) // player is to the right of collider
-    && (playerPosition.x < colliderPosition.x + x + collider.width) // player is to the left of collider
-    && (playerPosition.y + player.height > colliderPosition.y + y) // player is below collider
-    && (playerPosition.y < colliderPosition.y + y + collider.height)) // player is above collider
+    return ((playerPosition.x + player.width > colliderPosition.x + x + tolerance) // player is to the right of collider
+    && (playerPosition.x < colliderPosition.x + x + collider.width - tolerance) // player is to the left of collider
+    && (playerPosition.y + player.height > colliderPosition.y + y + tolerance) // player is below collider
+    && (playerPosition.y < colliderPosition.y + y + collider.height - tolerance)) // player is above collider
 }

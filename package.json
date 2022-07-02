@@ -1,16 +1,17 @@
 {
   "name": "novemberjs",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.0.1",
+  "description": "A role playing game learning experience.",
   "private": "true",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "webpack --watch",
     "start": "webpack serve --open",
-    "build": "webpack"
+    "build": "webpack",
+    "release": "webpack --env=production"
   },
   "keywords": [],
-  "author": "",
+  "author": "amresh.venugopal <amresh.venugopal@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "css-loader": "^6.7.1",

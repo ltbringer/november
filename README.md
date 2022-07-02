@@ -46,10 +46,10 @@ WIP.
 - [x] Implement collision detection.
 - [x] Move the MC around the MAP.
 - [x] Animate MC's movements.
-- [] Create attacks.
-- [] Animate MC's attacks.
-- [] Add a monster sprite.
-- [] ...
-- [] Build maps dynamically.
-- [] Build and Destroy ability for MC.
+- [ ] Create attacks.
+- [ ] Animate MC's attacks.
+- [ ] Add a monster sprite.
+- [ ] ...
+- [ ] Build maps dynamically.
+- [ ] Build and Destroy ability for MC.
 

@@ -81,8 +81,11 @@ Here's a demo.
 
 ![Collision enabled movement](images/november_v1.gif)
 
-Credits to my resources: [sproutlands](https://cupnooble.itch.io/sprout-lands-asset-pack)
-from [itch.io](https://itch.io/).
+Credits to my resources:
+
+- [sproutlands](https://cupnooble.itch.io/sprout-lands-asset-pack) from [itch.io](https://itch.io/).
+- [Chris Courses](https://www.youtube.com/watch?v=yP5DKzriqXA&t) This project draws inspiration from the video. I have made a lot of different
+    design choices but want to credit the creator for the time they spend on the video. It helped be stay motivated to the cause.
 
 ## Todos
 

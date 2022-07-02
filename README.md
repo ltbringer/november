@@ -41,11 +41,15 @@ WIP.
 
 ## Todos
 
-- [] Move the MC around the MAP.
-- [] Animate MC's movements.
+- [x] Render the map.
+- [x] Render the collision grid.
+- [x] Implement collision detection.
+- [x] Move the MC around the MAP.
+- [x] Animate MC's movements.
+- [] Create attacks.
 - [] Animate MC's attacks.
 - [] Add a monster sprite.
-- [] Create attacks.
 - [] ...
 - [] Build maps dynamically.
 - [] Build and Destroy ability for MC.
+

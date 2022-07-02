@@ -61,7 +61,7 @@ I used the 30x40 rule for the world. Decided to use a 64px for single collider b
 of 1920 x 1440.
 
 Detecting collisions was still hard. The way the illusion of movement works is: everything except the player moves!
-I had a hard to understanding this but it makes sense. This way you don't need to code up a virtual camera to follow 
+I had a hard time understanding this but it made sense. This way you don't need to code up a virtual camera to follow 
 the player, saving a lot of code. I was stuck for a while having the MC touch a collider and never getting to move out of it.
 So I tried a pre-emptive approach to prevent movement if the MC's movement speed would lead to a collision in the next frame.
 
@@ -95,6 +95,7 @@ Credits to my resources:
 - [x] Move the MC around the MAP.
 - [x] Animate MC's movements.
 - [ ] Create attacks.
+- [ ] Create/Destroy interaction with tiles.
 - [ ] Animate MC's attacks.
 - [ ] Add a monster sprite.
 - [ ] ...

@@ -51,7 +51,6 @@ export const animationBuilder = ({ bg, player, state, canvas, fg }: AnimationBui
     const animate = (): void => {
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         bg.draw(ctx);
-        colliders.forEach(collider => collider.draw(ctx));
         player.draw(ctx);
         fg.draw(ctx);
         window.requestAnimationFrame(animate);

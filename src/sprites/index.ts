@@ -64,7 +64,6 @@ export class Sprite {
     }
 
     loadImage(ctx: CanvasRenderingContext2D): Sprite {
-        console.log("loading images");
         this.image.onload = () => {
             this.draw(ctx);
         }

@@ -85,7 +85,7 @@ Credits to my resources:
 
 - [Sproutlands](https://cupnooble.itch.io/sprout-lands-asset-pack) from [itch.io](https://itch.io/). I have supported the creator by purchasing the premium edition.
 - This project draws inspiration from [Chris Courses YT video](https://www.youtube.com/watch?v=yP5DKzriqXA&t). I have made a lot of different
-    design choices but want to credit the creator for the time they spent on the video. It helped be stay motivated and gave me a solid starting point for my cause.
+    design choices but want to credit the creator for the time they spent on the video. It helped me stay motivated and gave me a solid starting point.
 
 ## Todos
 

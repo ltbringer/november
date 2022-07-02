@@ -1,9 +1,9 @@
-name: Generate a build
+name: Generate a demo build
 
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build:

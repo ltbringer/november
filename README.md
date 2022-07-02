@@ -39,6 +39,51 @@ WIP.
 - The map can generate items that can be collected.
 - Living things have a healing factor (which can be reduced).
 
+## v1
+
+### 30 Jun, 2022 - 2 July, 2022
+
+This was a humbling experience. I thought I could have pulled it off in one day but it took me over 2 days and 5 hours.
+I learned building tiled maps. There was a lot of struggle figuring out resolutions and I'll be honest, I have skimmed that part.
+Regarding the background image, there were a couple of things to worry about. 
+
+The world is made of a grid with 30 x 40 tiles. This was decision was taken on tiled map editor.
+At that moment, I wasn't aware of the choices I am making but I thought I would figure out the maths later.
+Later on HTML5 land, I built the canvas and set the resolution of 1280 x 720. Things didn't look good:
+
+- Canvas tries to anti-alias images. Since I am already using pixel art I had to turn it off.
+- The image was not scaled to the resolution.
+
+However, I moved on and added the sprite for my main character and started integrating the tile-map for collisions.
+It was this moment, when I started panicking. The collision tiles would not align. No, it wasn't because of offsets
+the image seemed to belong to a completely different resolution than the collision tiles. To work out the correct resolution,
+I used the 30x40 rule for the world. Decided to use a 64px for single collider block (a square). Giving me the resolution
+of 1920 x 1440.
+
+Detecting collisions was still hard. The way the illusion of movement works is: everything except the player moves!
+I had a hard to understanding this but it makes sense. This way you don't need to code up a virtual camera to follow 
+the player, saving a lot of code. I was stuck for a while having the MC touch a collider and never getting to move out of it.
+So I tried a pre-emptive approach to prevent movement if the MC's movement speed would lead to a collision in the next frame.
+
+Collision is still not perfect. There are places (like a bridge) where the MC can't walk over since there is an invisible collider
+block due to the ocean water right above. This isn't very intuitive and I may have to customize certain colliders to be more forgiving
+when an entry is in a certain direction. Since the impact is cosmetic I will not work on it for now.
+
+The sprite animation took a while to smoothen. I had to study how requestAnimationFrame works. It calls your function approx 16ms.
+It may not do that if you switch a tab or are running an `<Iframe>`. This gave me a hint to move the sprite face in the order of 10e-3.
+I think a reset to idle frame is a good touch and possibly simple.
+
+I also don't like the way foreground works. The foreground is a single image so items that are farther also cover the MC, giving the
+game a very flat appearance. I think I need to have the foreground imported separately and row-wise. This way I can tell which
+rows should come before the MC but it seems very inefficient.
+
+Here's a demo.
+
+![Collision enabled movement](images/november_v1.gif)
+
+Credits to my resources: [sproutlands](https://cupnooble.itch.io/sprout-lands-asset-pack)
+from [itch.io](https://itch.io/).
+
 ## Todos
 
 - [x] Render the map.

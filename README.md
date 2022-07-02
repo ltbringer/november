@@ -83,9 +83,9 @@ Here's a demo.
 
 Credits to my resources:
 
-- [sproutlands](https://cupnooble.itch.io/sprout-lands-asset-pack) from [itch.io](https://itch.io/).
-- [Chris Courses](https://www.youtube.com/watch?v=yP5DKzriqXA&t) This project draws inspiration from the video. I have made a lot of different
-    design choices but want to credit the creator for the time they spend on the video. It helped be stay motivated to the cause.
+- [Sproutlands](https://cupnooble.itch.io/sprout-lands-asset-pack) from [itch.io](https://itch.io/). I have supported the creator by purchasing the premium edition.
+- This project draws inspiration from [Chris Courses YT video](https://www.youtube.com/watch?v=yP5DKzriqXA&t). I have made a lot of different
+    design choices but want to credit the creator for the time they spent on the video. It helped be stay motivated and gave me a solid starting point for my cause.
 
 ## Todos
 

@@ -1,7 +1,5 @@
 import { PLAYER_MOVESPEED } from "../constants";
 
-type DirectionKeyArgs = { up: string, down: string, left: string, right: string };
-
 export class Keys {
     up: string
     down: string
@@ -37,7 +35,6 @@ export class Keys {
 
     release(key: string): void {
         this.pressed[key] = false;
-        this.lastKey = null;
     }
 
     isPressed(direction: string): boolean {

@@ -1,41 +1,65 @@
+import { hasKey } from '../utils/misc';
+
 export class Sprite {
     position: coordinates;
-    zoom: number;
+    zoom?: number;
     image: HTMLImageElement;
     width: number;
     height: number;
-    cropX: number;
-    cropY: number;
+    face: number;
+    frames?: number;
+    currentFrame: number;
+    directions: DirectionFaceArgs
+    framesPerDirection: number;
+    refreshRate: number;
 
     constructor({
         position,
         image,
         width,
         height,
-        cropX = 1,
-        cropY = 1,
-        zoom = 1
+        directions,
+        zoom = 1,
+        frames = 1,
     }: SpriteArgs) {
         this.position = position;
         this.zoom = zoom;
         this.image = image;
         this.width = width * this.zoom;
         this.height = height * this.zoom;
-        this.cropX = cropX;
-        this.cropY = cropY;
+        this.face = 0;
+        this.currentFrame = 0;
+        this.frames = frames;
+        this.directions = directions;
+        this.refreshRate = 5e-4;
+        this.framesPerDirection = this.frames / Object.keys(this.directions).length;
+    }
+
+    animate(direction: string): Sprite {
+        if (hasKey(this.directions, direction)) {
+            const firstFrame= this.directions[direction];
+            const lastFrame = this.directions[direction] + this.framesPerDirection;
+            if (this.face >= firstFrame && this.face < lastFrame) {
+                this.face += this.refreshRate;
+            } else {
+                this.face = firstFrame;
+            }
+        }
+        this.currentFrame = Math.floor(this.face) * this.frames;
+        return this
     }
 
     draw(ctx: CanvasRenderingContext2D): Sprite {
         ctx.drawImage(
             this.image,
+            this.currentFrame,
             0,
-            0,
-            this.image.width / this.cropX,
-            this.image.height / this.cropY,
+            this.image.width / this.frames,
+            this.image.height,
             this.position.x,
             this.position.y,
-            this.image.width / this.cropX * this.zoom,
-            this.image.height / this.cropY * this.zoom);
+            this.image.width / this.frames * this.zoom,
+            this.image.height * this.zoom);
         return this;
     }
 

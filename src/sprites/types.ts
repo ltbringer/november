@@ -3,7 +3,7 @@ type SpriteArgs = {
     image: HTMLImageElement,
     width: number,
     height: number,
-    cropX?: number,
-    cropY?: number,
-    zoom?: number
+    zoom?: number,
+    frames?: number,
+    directions: DirectionFaceArgs
 }

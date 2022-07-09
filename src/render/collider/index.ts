@@ -1,9 +1,8 @@
 import { makeCollisionGrid } from "./collisions";
 import { IS_COLLIDER, MAP_X_OFFSET, MAP_Y_OFFSET, TILES } from "../../constants";
-import { Sprite } from "../../sprites";
 
 
-export class BoxCollider {
+export class BoxCollider implements Box {
     width: number;
     height: number;
     position: coordinates;
@@ -50,23 +49,23 @@ export const getColliders = (): BoxCollider[] => {
  *          | P | | C |
  *          ‾‾‾‾‾ ‾‾‾‾‾
  *         
- * @param player 
- * @param collider 
+ * @param shape1 
+ * @param shape2 
  * @param param2 
  * @param tolerance 
  * @returns 
  */
 export const checkCollision = (
-    player: Sprite,
-    collider: BoxCollider,
+    shape1: Box,
+    shape2: Box,
     { x, y }: coordinates,
     tolerance: number = 16
 ): boolean => {
-    const playerPosition = player.position;
-    const colliderPosition = collider.position;
+    const shape1Position = shape1.position;
+    const shape2Position = shape2.position;
 
-    return ((playerPosition.x + player.width > colliderPosition.x + x + tolerance) // player is to the right of collider
-    && (playerPosition.x < colliderPosition.x + x + collider.width - tolerance) // player is to the left of collider
-    && (playerPosition.y + player.height > colliderPosition.y + y + tolerance) // player is below collider
-    && (playerPosition.y < colliderPosition.y + y + collider.height - tolerance)) // player is above collider
+    return ((shape1Position.x + shape1.width > shape2Position.x + x + tolerance) // player is to the right of collider
+    && (shape1Position.x < shape2Position.x + x + shape2.width - tolerance) // player is to the left of collider
+    && (shape1Position.y + shape1.height > shape2Position.y + y + tolerance) // player is below collider
+    && (shape1Position.y < shape2Position.y + y + shape2.height - tolerance)) // player is above collider
 }

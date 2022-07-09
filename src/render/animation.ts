@@ -6,10 +6,10 @@ import { State } from "../state";
 import { Sprite, Playable } from "../sprites";
 import { manhattanDistance } from "../utils/misc";
 
-type MotionControlArgs = { state: State, bg: Sprite, player: Playable, enemy: Playable, fg: Sprite, colliders: BoxCollider[],}
+type MotionControlArgs = { ctx: CanvasRenderingContext2D, state: State, bg: Sprite, player: Playable, enemy: Playable, fg: Sprite, colliders: BoxCollider[]}
 type AnimationBuilderArgs = { bg: Sprite, player: Playable, enemy: Playable, fg: Sprite, state: State, canvas: HTMLCanvasElement}
 
-const motionControl = ({ state, bg, player, enemy, fg, colliders }: MotionControlArgs): void => {
+const motionControl = ({ ctx, state, bg, player, enemy, fg, colliders }: MotionControlArgs): void => {
     const { keys } = state;
     let futureKeyState: coordinates = {x: 0, y: 0}
     if (keys.isPressed(keys.up)) {
@@ -46,7 +46,7 @@ const motionControl = ({ state, bg, player, enemy, fg, colliders }: MotionContro
         [...colliders, bg, fg].forEach(moveMobile);
         enemy.follow(player.position, enemyCollisions);
     } else if (checkCollision(enemy, player, { x: 0, y: 0 })) {
-        enemy.attack(player, true);
+        enemy.attack(player, true).drawAttackEffects(ctx, player);
         player.attack(enemy, keys.isPressed("y"));
     } else {
         [...colliders, bg, fg, enemy].forEach(moveMobile);
@@ -66,9 +66,8 @@ export const animationBuilder = ({ bg, player, state, canvas, fg, enemy }: Anima
         player.draw(ctx);
         enemy.draw(ctx);
         fg.draw(ctx);
-        colliders.forEach(collider => collider.draw(ctx));
         window.requestAnimationFrame(animate);
-        motionControl({ state, bg, player, enemy, fg, colliders });
+        motionControl({ ctx, state, bg, player, enemy, fg, colliders });
     }
     return animate;
 }

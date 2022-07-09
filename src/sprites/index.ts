@@ -174,7 +174,7 @@ export class Playable extends Sprite implements Box {
     }
 
     drawAttackEffects(ctx: CanvasRenderingContext2D, target: Playable): Playable {
-        if (target.hp == 0) {
+        if (target.hp == 0 || this.hp == 0) {
             return this;
         }
         const r = randomInt(this.width / 16, this.width);

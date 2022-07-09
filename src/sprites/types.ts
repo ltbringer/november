@@ -7,3 +7,12 @@ type SpriteArgs = {
     frames?: number,
     directions: DirectionFaceArgs
 }
+
+type PlayableArgs = {
+    hp: number,
+    mana: number,
+    muscle: number,
+    magik: number,
+    armour: number,
+    immunity: number
+}

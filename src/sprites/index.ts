@@ -1,6 +1,5 @@
 import { hasKey, randomInt } from '../utils/misc';
 import { BAR_HEIGHT, BAR_OFFSET } from '../constants';
-import { BoxCollider, checkCollision } from "../render/collider";
 
 export class Sprite {
     position: coordinates;
@@ -112,7 +111,7 @@ export class Playable extends Sprite implements Box {
     }
 
     attack(target: Playable, condition: boolean): Playable {
-        if (condition && this.hp > 0) {
+        if (condition && this.hp > 0 && target.hp > 0) {
             const damage = this.muscle / target.armour;
             target.hp = (target.hp - damage > 0) ? target.hp - damage: 0;
         }
@@ -164,6 +163,29 @@ export class Playable extends Sprite implements Box {
         return this;
     }
 
+    drawDebug(ctx: CanvasRenderingContext2D): Playable {
+        ctx.strokeStyle = "rgba(100, 0, 0, 0.5)";
+        ctx.fillStyle = "black";
+        ctx.strokeRect(this.position.x, this.position.y, this.width, this.height);
+        ctx.font = "10px Arial";
+        ctx.fillText(`(${this.position.x}, ${this.position.y})`, this.position.x + 10, this.position.y + this.height + 20);
+        ctx.fillRect(this.position.x, this.position.y, 5, 5);
+        return this;
+    }
+
+    drawAttackEffects(ctx: CanvasRenderingContext2D, target: Playable): Playable {
+        if (target.hp == 0) {
+            return this;
+        }
+        const r = randomInt(this.width / 16, this.width);
+        ctx.fillStyle = "rgba(180, 112, 224, 0.5)";
+        ctx.beginPath();
+        ctx.arc(this.position.x + (this.width / 2), this.position.y + (this.height / 2), r, 0, 2 * Math.PI);
+        ctx.closePath();
+        ctx.fill();
+        return this;
+    }
+
     draw(ctx: CanvasRenderingContext2D): Playable {
         if (this.hp == 0) {
             return this;
@@ -171,13 +193,6 @@ export class Playable extends Sprite implements Box {
         this.drawMeter(ctx)
             .drawHP(ctx)
             .drawMana(ctx);
-
-        ctx.strokeStyle = "rgba(100, 0, 0, 0.5)";
-        ctx.fillStyle = "black";
-        ctx.strokeRect(this.position.x, this.position.y, this.width, this.height);
-        ctx.font = "10px Arial";
-        ctx.fillText(`(${this.position.x}, ${this.position.y})`, this.position.x + 10, this.position.y + this.height + 20);
-        ctx.fillRect(this.position.x, this.position.y, 5, 5);
 
         ctx.drawImage(
             this.image,

@@ -94,10 +94,10 @@ Credits to my resources:
 - [x] Implement collision detection.
 - [x] Move the MC around the MAP.
 - [x] Animate MC's movements.
-- [ ] Create attacks.
+- [x] Create attacks.
 - [ ] Create/Destroy interaction with tiles.
 - [ ] Animate MC's attacks.
-- [ ] Add a monster sprite.
+- [x] Add a enemy npc sprite.
 - [ ] ...
 - [ ] Build maps dynamically.
 - [ ] Build and Destroy ability for MC.

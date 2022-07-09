@@ -69,7 +69,7 @@ Collision is still not perfect. There are places (like a bridge) where the MC ca
 block due to the ocean water right above. This isn't very intuitive and I may have to customize certain colliders to be more forgiving
 for certain vectors. Since the impact is cosmetic I will not work on it for now.
 
-The sprite animation took a while to smoothen. I had to study how [requestAnimationFrame](https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame) works. It calls your function approx 16ms.
+The sprite animation took a while to smoothen. I had to study how [requestAnimationFrame](https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame) works. It calls your function approx every 16ms.
 It may not do that if you switch a tab or are running an `<Iframe>`. This gave me a hint to move the sprite face in the order of 10e-3.
 I think a reset to idle frame is a good touch and possibly simple.
 

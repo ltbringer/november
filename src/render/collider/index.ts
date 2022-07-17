@@ -38,15 +38,12 @@ export const coordsMapPosition = (coords: coordinates): coordinates => ({
 
 export const getColliders = (): BoxCollider[] => {
     const colliders: BoxCollider[] = [];
-    const collisionGrid: number[][] = makeCollisionGrid(TILES.rows);
-    collisionGrid.forEach((row, i) => {
+    const grid: number[][] = makeGrid(TILES.rows);
+    grid.forEach((row, i) => {
         row.forEach((col, j) => {
             if (col === IS_COLLIDER) {
                 colliders.push(new BoxCollider({
-                    position: {
-                        x: j * BoxCollider.width + MAP_X_OFFSET,
-                        y: i * BoxCollider.height + MAP_Y_OFFSET
-                    }
+                    position: coordsMapPosition({ x: j, y: i }),
                 }));
             }
         });

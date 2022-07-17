@@ -26,6 +26,16 @@ export class BoxCollider implements Box {
     }
 }
 
+export const coordsAbsPosition = (coords: coordinates): coordinates => ({
+    x: Math.floor((coords.x - MAP_X_OFFSET) / TILE_WIDTH),
+    y: Math.floor((coords.y - MAP_Y_OFFSET) / TILE_HEIGHT),
+})
+
+export const coordsMapPosition = (coords: coordinates): coordinates => ({
+    x: (coords.x * TILE_WIDTH) + MAP_X_OFFSET,
+    y: (coords.y * TILE_HEIGHT) + MAP_Y_OFFSET,
+})
+
 export const getColliders = (): BoxCollider[] => {
     const colliders: BoxCollider[] = [];
     const collisionGrid: number[][] = makeCollisionGrid(TILES.rows);

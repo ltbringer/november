@@ -4,7 +4,7 @@ import { getColliders, checkCollision } from "./collider";
 import { BoxCollider } from "./collider";
 import { State } from "../state";
 import { Sprite, Playable } from "../sprites";
-import { manhattanDistance } from "../utils/misc";
+import { hasKey, manhattanDistance } from "../utils/misc";
 
 type MotionControlArgs = { ctx: CanvasRenderingContext2D, state: State, bg: Sprite, player: Playable, enemy: Playable, fg: Sprite, colliders: BoxCollider[]}
 type AnimationBuilderArgs = { bg: Sprite, player: Playable, enemy: Playable, fg: Sprite, state: State, canvas: HTMLCanvasElement}

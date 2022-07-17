@@ -1,5 +1,5 @@
-import { makeCollisionGrid } from "./collisions";
-import { IS_COLLIDER, MAP_X_OFFSET, MAP_Y_OFFSET, TILES } from "../../constants";
+import { makeGrid } from "./collisions";
+import { IS_COLLIDER, MAP_X_OFFSET, MAP_Y_OFFSET, TILES, TILE_HEIGHT, TILE_WIDTH } from "../../constants";
 
 
 export class BoxCollider implements Box {
@@ -7,13 +7,13 @@ export class BoxCollider implements Box {
     height: number;
     position: coordinates;
     isCollider: boolean;
-    static width = 64;
-    static height = 64;
-    constructor({ position }: position) {
+    static width = TILE_WIDTH;
+    static height = TILE_HEIGHT;
+
+    constructor({ position }: BoxPosition) {
         this.position = position;
         this.width = BoxCollider.width;
         this.height = BoxCollider.height;
-        this.isCollider = true;
     }
 
     draw(ctx: CanvasRenderingContext2D): void {

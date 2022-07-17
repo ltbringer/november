@@ -26,19 +26,23 @@ const motionControl = ({ ctx, state, bg, player, enemy, fg, colliders }: MotionC
     const enemyCollisions = colliders.some((collider: BoxCollider) => checkCollision(enemy, collider, futureKeyState));
 
     const moveMobile = (mobile: BoxCollider | Sprite) => {
-        if (keys.isPressed(keys.up) && !playerCollisions) {
-            mobile.position.y += PLAYER_MOVESPEED
-            player.animate("up");
-        } else if (keys.isPressed(keys.left) && !playerCollisions) {
-            mobile.position.x += PLAYER_MOVESPEED
-            player.animate("left");
-        } else if (keys.isPressed(keys.down) && !playerCollisions) {
-            mobile.position.y -= PLAYER_MOVESPEED
-            player.animate("down");
-        } else if (keys.isPressed(keys.right) && !playerCollisions) {
-            mobile.position.x -= PLAYER_MOVESPEED
-            player.animate("right");
-        }
+        for (const key of Object.keys(keys.pressed)) {
+            if (!keys.keysToDirectionMap.hasOwnProperty(key)) {
+                break;
+            }
+            if (keys.isPressed(key)) {
+                player.animate(keys.keysToDirectionMap[key]);
+
+                if (!playerCollisions) {
+                    const [axis, velocity] = keys.motion[key];
+                    if (hasKey(mobile.position, axis)) {
+                        mobile.position[axis] += velocity;
+                        break;
+                    }
+                }
+
+            }
+        };
     }
 
     const enemyDistance = manhattanDistance(player.position, enemy.position);

@@ -81,6 +81,23 @@ Here's a demo.
 
 ![Collision enabled movement](images/november_v1.gif)
 
+## v1
+
+### 2 July, 2022 - 18 July, 2022
+
+- Implemented a priority queue. This data structure is key before implementing A-Star.
+- Implemented A-star to let NPCs chase me around and kill.
+- Smoother animation for MC. (animates even on collision)
+- Added a health bar to the MC and NPC.
+- Gave the NPC as toxic cloud attack.
+- Gave the MC an attack (no animations).
+
+There seems to be a lot of room to save compute. A lot of grid calculations loop
+because the map moves instead of characters. Since I am looking forward to move many NPCs around, it might be
+a good benefit to move only the characters and cache the paths.
+
+![AStar at work](images/astarmini.gif)
+
 Credits to my resources:
 
 - [Sproutlands](https://cupnooble.itch.io/sprout-lands-asset-pack) from [itch.io](https://itch.io/). I have supported the creator by purchasing the premium edition.
@@ -92,12 +109,13 @@ Credits to my resources:
 - [x] Render the map.
 - [x] Render the collision grid.
 - [x] Implement collision detection.
+- [x] Add a enemy npc sprite.
 - [x] Move the MC around the MAP.
+- [x] Move NPC using A-star.
 - [x] Animate MC's movements.
 - [x] Create attacks.
 - [ ] Create/Destroy interaction with tiles.
 - [ ] Animate MC's attacks.
-- [x] Add a enemy npc sprite.
 - [ ] ...
 - [ ] Build maps dynamically.
 - [ ] Build and Destroy ability for MC.

@@ -46,14 +46,17 @@ const motionControl = ({ ctx, state, bg, player, enemy, fg, colliders }: MotionC
     }
 
     const enemyDistance = manhattanDistance(player.position, enemy.position);
-    if (enemyDistance <= ENEMY_CHASE_DISTANCE && !enemyCollisions) {
+
+    if (enemyDistance <= ENEMY_CHASE_DISTANCE) {
         [...colliders, bg, fg].forEach(moveMobile);
-        enemy.follow(player.position, enemyCollisions);
-    } else if (checkCollision(enemy, player, { x: 0, y: 0 })) {
-        enemy.attack(player, true).drawAttackEffects(ctx, player);
-        player.attack(enemy, keys.isPressed("y"));
+        enemy.follow(player.position, colliders);
     } else {
         [...colliders, bg, fg, enemy].forEach(moveMobile);
+    }
+
+    if (checkCollision(enemy, player, { x: 0, y: 0 }, -16)) {
+        enemy.attack(player, true).drawAttackEffects(ctx, player);
+        player.attack(enemy, keys.isPressed("y"));
     }
 }
 

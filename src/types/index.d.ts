@@ -12,3 +12,16 @@ interface Box {
     width: number;
     height: number;
 }
+
+type AStarRecord = {
+    fScore: number,
+    gScore: number,
+    hScore: number,
+    parent: coordinates | null,
+    position: coordinates,
+    key: string
+};
+
+type TileMap = {
+    [key: string]: AStarRecord
+}

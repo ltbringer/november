@@ -1,5 +1,7 @@
 import { hasKey, randomInt } from '../utils/misc';
 import { BAR_HEIGHT, BAR_OFFSET } from '../constants';
+import { BoxCollider, coordsAbsPosition, coordsMapPosition } from '../render/collider';
+import { PathFinder } from './pathfinder';
 
 export class Sprite {
     position: coordinates;
@@ -77,6 +79,7 @@ export class Playable extends Sprite implements Box {
     muscle: number;
     magik: number;
     mana: number;
+    pathFinder: PathFinder;
 
     constructor(spriteArgs: SpriteArgs, { hp, mana, muscle, magik, armour, immunity}: PlayableArgs) {
        super(spriteArgs);
@@ -86,6 +89,7 @@ export class Playable extends Sprite implements Box {
        this.magik = magik;
        this.armour = armour;
        this.immunity = immunity;
+       this.pathFinder = new PathFinder();
     }
 
     animate(direction: string): Playable {
@@ -100,13 +104,21 @@ export class Playable extends Sprite implements Box {
         return this
     }
 
-    follow(position: coordinates, collisions: boolean): Playable {
-        const newX = randomInt(-1, 1);
-        const newY = randomInt(-1, 1);
-        if (!collisions) {
-            this.position.x += newX;
-            this.position.y += newY;
+    follow(position: coordinates, colliders: BoxCollider[]): Playable {
+        const currentPosition = coordsAbsPosition(this.position);
+        const targetPosition = coordsAbsPosition(position);
+        const steps = this.pathFinder.find(currentPosition, targetPosition, colliders).map(coordsMapPosition);
+        if (steps.length > 0) {
+            this.crawl(steps[0]);
         }
+        return this;
+    }
+
+    crawl(coords: coordinates): Playable {
+        const x = coords.x - this.position.x;
+        const y = coords.y - this.position.y;
+        this.position.x += x/1.05;
+        this.position.y += y/1.05;
         return this;
     }
 

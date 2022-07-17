@@ -1,4 +1,5 @@
 import { PLAYER_MOVESPEED } from "../constants";
+import { hasKey } from "../utils/misc";
 
 export class Keys {
     up: string
@@ -8,7 +9,7 @@ export class Keys {
     pressed: { [key: string]: boolean }
     motion: { [key: string]: [string, number] }
     lastKey: string | null
-    keysToDirection: { [key: string]: string }
+    keysToDirectionMap: { [key: string]: string }
 
     constructor({ up, down, left, right }: DirectionKeyArgs) {
         this.up = up
@@ -28,7 +29,7 @@ export class Keys {
             [this.right]: ["x", -PLAYER_MOVESPEED]
         }
         this.lastKey = null;
-        this.keysToDirection = {
+        this.keysToDirectionMap = {
             [this.up]: "up",
             [this.down]: "down",
             [this.left]: "left",
@@ -42,13 +43,13 @@ export class Keys {
 
     getLastDirection(): string | null {
         if (this.lastKey) {
-            return this.keysToDirection[this.lastKey];
+            return this.keysToDirectionMap[this.lastKey];
         }
     }
 
     press(key: string): void {
         this.pressed[key] = true;
-        if (key in Object.values(this.keysToDirection)) {
+        if (key in Object.values(this.keysToDirectionMap)) {
             this.lastKey = key;    
         }
     }

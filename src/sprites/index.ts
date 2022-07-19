@@ -148,7 +148,6 @@ export class Playable extends Sprite implements IPlayable {
     choice: string,
     ctx: CanvasRenderingContext2D
   ): Playable {
-    console.log(choice, hasKey(this.attacks, choice));
     if (this.hp > 0 && target.hp > 0 && hasKey(this.attacks, choice)) {
       const attack: IAttack = this.attacks[choice];
       const user = this;

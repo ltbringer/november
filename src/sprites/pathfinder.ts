@@ -17,12 +17,6 @@ export class PathFinder {
         this.paths = {};
         this.visited = new Set();
         this.surroundings = new PriorityQueue();
-        this.reset();
-    }
-
-    reset() {
-        this.visited = new Set();
-        this.surroundings = new PriorityQueue();
     }
     
     isSameCoords(c1: coordinates, c2: coordinates): boolean {
@@ -62,9 +56,7 @@ export class PathFinder {
             this.paths[current.key] = current;
 
             if (this.isSameCoords(current.position, destination)) {
-                path = this.buildPath(current.key);
-                this.reset();
-                return path;
+                return this.buildPath(current.key);
             }
 
             for (let direction of DIRECTIONS) {
@@ -79,7 +71,6 @@ export class PathFinder {
                     continue;
                 }
 
-                
                 const gScore = current.gScore + 1;
                 const hScore = manhattanDistance(newCoordinates, destination);
                 const fScore = gScore + hScore;
@@ -95,7 +86,6 @@ export class PathFinder {
                 })
             }
         }
-        this.reset();
         return path;
     }
 

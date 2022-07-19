@@ -23,10 +23,10 @@ export class Keys {
             [this.right]: false
         }
         this.motion = {
-            [this.up]: ["y", PLAYER_MOVESPEED],
-            [this.down]: ["y", -PLAYER_MOVESPEED],
-            [this.left]: ["x", PLAYER_MOVESPEED],
-            [this.right]: ["x", -PLAYER_MOVESPEED]
+            [this.up]: ["y", -PLAYER_MOVESPEED],
+            [this.down]: ["y", PLAYER_MOVESPEED],
+            [this.left]: ["x", -PLAYER_MOVESPEED],
+            [this.right]: ["x", PLAYER_MOVESPEED]
         }
         this.lastKey = null;
         this.keysToDirectionMap = {

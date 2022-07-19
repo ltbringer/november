@@ -11,7 +11,8 @@ type AnimationBuilderArgs = { bg: Sprite, player: Playable, enemy: Playable, fg:
 
 const motionControl = ({ ctx, state, bg, player, enemy, fg, colliders }: MotionControlArgs): void => {
     const { keys } = state;
-    let futureKeyState: coordinates = {x: 0, y: 0}
+    let futureKeyState: coordinates = {x: 0, y: 0};
+    let follow = false;
     if (keys.isPressed(keys.up)) {
         futureKeyState.y = PLAYER_MOVESPEED;
     } else if (keys.isPressed(keys.left)) {
@@ -24,6 +25,7 @@ const motionControl = ({ ctx, state, bg, player, enemy, fg, colliders }: MotionC
 
     const playerCollisions = colliders.some((collider: BoxCollider) => checkCollision(player, collider, futureKeyState));
     const enemyCollisions = colliders.some((collider: BoxCollider) => checkCollision(enemy, collider, futureKeyState));
+    const enemyDistance = manhattanDistance(player.position, enemy.position);
 
     const moveMobile = (mobile: BoxCollider | Sprite) => {
         for (const key of Object.keys(keys.pressed)) {
@@ -32,7 +34,7 @@ const motionControl = ({ ctx, state, bg, player, enemy, fg, colliders }: MotionC
             }
             if (keys.isPressed(key)) {
                 player.animate(keys.keysToDirectionMap[key]);
-
+            
                 if (!playerCollisions) {
                     const [axis, velocity] = keys.motion[key];
                     if (hasKey(mobile.position, axis)) {
@@ -40,18 +42,14 @@ const motionControl = ({ ctx, state, bg, player, enemy, fg, colliders }: MotionC
                         break;
                     }
                 }
-
             }
         };
     }
 
-    const enemyDistance = manhattanDistance(player.position, enemy.position);
-
-    if (enemyDistance <= ENEMY_CHASE_DISTANCE) {
-        [...colliders, bg, fg].forEach(moveMobile);
-        enemy.follow(player.position, colliders);
-    } else {
-        [...colliders, bg, fg, enemy].forEach(moveMobile);
+    moveMobile(player);
+    if (enemyDistance <= ENEMY_CHASE_DISTANCE || follow) {
+        enemy.follow(player, colliders);
+        follow = true;
     }
 
     if (checkCollision(enemy, player, { x: 0, y: 0 }, -16)) {

@@ -1,71 +1,100 @@
-import { PLAYER_MOVESPEED } from "../constants";
+import { MOVESPEED } from "../constants";
 import { hasKey } from "../utils/misc";
 
-export class Keys {
-    up: string
-    down: string
-    left: string
-    right: string
-    pressed: { [key: string]: boolean }
-    motion: { [key: string]: [string, number] }
-    lastKey: string | null
-    keysToDirectionMap: { [key: string]: string }
+export class Controller {
+    motion: { [key: string]: { key: string, axis: string, velocity: number, pressed: boolean } }
+    attack: { [key: string]: string }
+    directionBindings: { [key: string]: string }
+    attackBindings: { [key: string]: number }
+    activeAttacks: boolean[];
 
-    constructor({ up, down, left, right }: DirectionKeyArgs) {
-        this.up = up
-        this.down = down
-        this.left = left
-        this.right = right
-        this.pressed = {
-            [this.up]: false,
-            [this.down]: false,
-            [this.left]: false,
-            [this.right]: false
-        }
+    constructor({ up, down, left, right, attacks }: DirectionKeyArgs) {
         this.motion = {
-            [this.up]: ["y", -PLAYER_MOVESPEED],
-            [this.down]: ["y", PLAYER_MOVESPEED],
-            [this.left]: ["x", -PLAYER_MOVESPEED],
-            [this.right]: ["x", PLAYER_MOVESPEED]
+            up: {
+                key: up,
+                axis: "y",
+                velocity: -MOVESPEED,
+                pressed: false,
+            },
+            down: {
+                key: down,
+                axis: "y",
+                velocity: MOVESPEED,
+                pressed: false,
+            },
+            left: {
+                key: left,
+                axis: "x",
+                velocity: -MOVESPEED,
+                pressed: false
+            },
+            right: {
+                key: right,
+                axis: "x",
+                velocity: MOVESPEED,
+                pressed: false
+            },
         }
-        this.lastKey = null;
-        this.keysToDirectionMap = {
-            [this.up]: "up",
-            [this.down]: "down",
-            [this.left]: "left",
-            [this.right]: "right",
+        this.directionBindings = {
+            [up]: "up",
+            [down]: "down",
+            [left]: "left",
+            [right]: "right"
+        };
+
+        this.attackBindings = {};
+        this.activeAttacks = attacks.map(_ => false);
+
+        for (let i = 0; i < attacks.length; i++) {
+            this.attackBindings[attacks[i]] = i;
         }
     }
 
     idle(): boolean {
-        return Object.keys(this.pressed).every(key => !this.pressed[key])
+        return Object.keys(this.motion).every(direction => !this.motion[direction].pressed)
     }
 
-    getLastDirection(): string | null {
-        if (this.lastKey) {
-            return this.keysToDirectionMap[this.lastKey];
+    getMovement(): string | null {
+        const directions = Object.keys(this.motion).filter(direction => this.motion[direction].pressed);
+        if (directions.length === 1) {
+            return directions[0];
         }
+        return null;
     }
 
     press(key: string): void {
-        this.pressed[key] = true;
-        if (key in Object.values(this.keysToDirectionMap)) {
-            this.lastKey = key;    
+        if (hasKey(this.directionBindings, key)) {
+            const direction = this.directionBindings[key];
+            this.motion[direction].pressed = true;
+        } else if (hasKey(this.attackBindings, key)) {
+            const attack = this.attackBindings[key];
+            this.activeAttacks[attack] = true;
         }
     }
 
     release(key: string): void {
-        this.pressed[key] = false;
+        if (hasKey(this.directionBindings, key)) {
+            const direction = this.directionBindings[key];
+            this.motion[direction].pressed = false;
+        } else if (hasKey(this.attackBindings, key)) {
+            const attack = this.attackBindings[key];
+            this.activeAttacks[attack] = false;
+        }
     }
 
-    isPressed(direction: string): boolean {
-        return this.pressed[direction];
+    isPressed(key: string | number): boolean {
+        if (hasKey(this.motion, key)) {
+            return this.motion[key].pressed;
+        } else if (hasKey(this.activeAttacks, key)) {
+            return this.activeAttacks[key];
+        }
+        return false;
     }
 }
 
 export class State {
-    keys: Keys
-    constructor({ keys }: { keys: DirectionKeyArgs }) {
-        this.keys = new Keys(keys)
+    controller: Controller
+    constructor({ controller }: { controller: DirectionKeyArgs }) {
+        this.controller = new Controller(controller)
     }
 }

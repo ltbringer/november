@@ -1,11 +1,11 @@
-import { Keys } from "../state";
+import { Controller } from "../state";
 
-export const configureKeyPress = (keys: Keys) => {
+export const configureKeyPress = (controller: Controller) => {
     window.addEventListener("keydown", (e: KeyboardEvent): void => {
-        keys.press(e.key);
+        controller.press(e.key);
     })
 
     window.addEventListener("keyup", (e: KeyboardEvent): void => {
-        keys.release(e.key);
+        controller.release(e.key);
     })
 }

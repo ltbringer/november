@@ -126,10 +126,16 @@ const main = () => {
   );
 
   const state = new State({
-    keys: { up: "w", down: "s", left: "a", right: "d" },
+    controller: {
+      up: "w",
+      down: "s",
+      left: "a",
+      right: "d",
+      attacks: ["y", "u", "i", "o"],
+    },
   });
   const canvas = mapSetup(MAP_WIDTH, MAP_HEIGHT);
-  configureKeyPress(state.keys);
+  configureKeyPress(state.controller);
   animationBuilder({ bg, player, state, canvas, fg, enemy })();
 };
 

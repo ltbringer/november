@@ -30,7 +30,6 @@ export class PhotonBeam extends Attack {
     target: Playable,
     ctx: CanvasRenderingContext2D
   ): PhotonBeam {
-    const r = randomInt(user.width / 16, user.width);
     ctx.fillStyle = "rgba(158, 25, 8, 0.8)";
     for (let i = 0; i < 100; i++) {
       const x = randomInt(user.position.x - 50, user.position.x - 500);

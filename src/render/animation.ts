@@ -1,5 +1,5 @@
 import { getCtx } from "./canvas";
-import { ENEMY_CHASE_DISTANCE, PLAYER_MOVESPEED } from "../constants";
+import { ENEMY_CHASE_DISTANCE, MOVESPEED } from "../constants";
 import { getColliders, checkCollision } from "./collider";
 import { BoxCollider } from "./collider";
 import { State } from "../state";
@@ -33,43 +33,37 @@ const motionControl = ({
   fg,
   colliders,
 }: MotionControlArgs): void => {
-  const { keys } = state;
+  const { controller } = state;
   let futureKeyState: coordinates = { x: 0, y: 0 };
   let follow = false;
-  if (keys.isPressed(keys.up)) {
-    futureKeyState.y = PLAYER_MOVESPEED;
-  } else if (keys.isPressed(keys.left)) {
-    futureKeyState.x = PLAYER_MOVESPEED;
-  } else if (keys.isPressed(keys.down)) {
-    futureKeyState.y = -PLAYER_MOVESPEED;
-  } else if (keys.isPressed(keys.right)) {
-    futureKeyState.x = -PLAYER_MOVESPEED;
+
+  if (controller.isPressed("up")) {
+    futureKeyState.y = MOVESPEED;
+  } else if (controller.isPressed("left")) {
+    futureKeyState.x = MOVESPEED;
+  } else if (controller.isPressed("down")) {
+    futureKeyState.y = -MOVESPEED;
+  } else if (controller.isPressed("right")) {
+    futureKeyState.x = -MOVESPEED;
   }
 
   const playerCollisions = colliders.some((collider: BoxCollider) =>
     checkCollision(player, collider, futureKeyState)
   );
-  const enemyCollisions = colliders.some((collider: BoxCollider) =>
-    checkCollision(enemy, collider, futureKeyState)
-  );
+
   const enemyDistance = manhattanDistance(player.position, enemy.position);
 
   const moveMobile = (mobile: BoxCollider | Sprite) => {
-    for (const key of Object.keys(keys.pressed)) {
-      if (!keys.keysToDirectionMap.hasOwnProperty(key)) {
-        break;
-      }
-      if (keys.isPressed(key)) {
-        player.animate(keys.keysToDirectionMap[key]);
+    const movementDirection = controller.getMovement();
+    if (!movementDirection) {
+      player.animate("idle");
+      return;
+    }
+    const { axis, velocity } = controller.motion[movementDirection];
+    player.animate(movementDirection);
 
-        if (!playerCollisions) {
-          const [axis, velocity] = keys.motion[key];
-          if (hasKey(mobile.position, axis)) {
-            mobile.position[axis] += velocity;
-            break;
-          }
-        }
-      }
+    if (!playerCollisions && hasKey(mobile.position, axis)) {
+      mobile.position[axis] += velocity;
     }
   };
 

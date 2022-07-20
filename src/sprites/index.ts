@@ -75,6 +75,7 @@ export class Playable extends Sprite implements IPlayable {
   directions: DirectionFaceArgs;
   framesPerDirection: number;
   refreshRate: number;
+  maxHp: number;
   hp: number;
   armour: number;
   immunity: number;
@@ -89,6 +90,7 @@ export class Playable extends Sprite implements IPlayable {
     { hp, mana, muscle, magik, armour, immunity, attacks }: PlayableArgs
   ) {
     super(spriteArgs);
+    this.maxHp = hp;
     this.hp = hp;
     this.mana = mana;
     this.muscle = muscle;
@@ -205,7 +207,7 @@ export class Playable extends Sprite implements IPlayable {
 
   drawHP(ctx: CanvasRenderingContext2D): Playable {
     const BarMaxWidth = this.width;
-    const hpBar = (this.hp / 100) * BarMaxWidth;
+    const hpBar = (this.hp / this.maxHp) * BarMaxWidth;
     const x = this.position.x;
     const y = this.position.y - 20 + BAR_OFFSET;
     ctx.fillStyle = this.hpBarColor();

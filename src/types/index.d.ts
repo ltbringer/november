@@ -74,6 +74,7 @@ interface IPlayable extends Box {
   directions: DirectionFaceArgs;
   framesPerDirection: number;
   refreshRate: number;
+  maxHp: number;
   hp: number;
   armour: number;
   immunity: number;

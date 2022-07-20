@@ -10,7 +10,7 @@ export class PhotonBeam extends Attack {
       heal: 0,
       type: "grass",
       range: 50,
-      cost: 0.1,
+      cost: 50,
       accuracy: 0.8,
       cooldown: 2,
       description: "",
@@ -37,9 +37,9 @@ export class PhotonBeam extends Attack {
       const y = randomInt(user.position.y, user.position.y + user.height);
       const w = randomInt(20, 100);
       const h = 5;
-      const r = randomInt(150, 255);
-      const g = randomInt(0, 150);
-      const b = randomInt(0, 150);
+      const r = randomInt(240, 255);
+      const g = randomInt(240, 255);
+      const b = randomInt(240, 255);
       const a = Math.random();
       ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${a})`;
       ctx.fillRect(x, y, w, h);

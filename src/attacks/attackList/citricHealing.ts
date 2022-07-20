@@ -30,15 +30,19 @@ export class CitricHealing extends Attack {
     target: Playable,
     ctx: CanvasRenderingContext2D
   ): CitricHealing {
-    const r = randomInt(user.width / 16, user.width);
-    ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
-    for (let i = 0; i < 10; i++) {
-      const x = randomInt(user.position.x, user.position.x + user.width);
-      const y = randomInt(user.position.y, user.position.y - 50);
-      const w = 5;
-      const h = randomInt(20, 100);
-      ctx.fillRect(x, y, w, h);
-    }
+    const r = randomInt(user.width - 20, user.width);
+    ctx.strokeStyle = "rgba(250, 251, 240, 0.8)";
+    ctx.lineWidth =  5;
+    ctx.beginPath();
+    ctx.arc(
+      user.position.x + user.width / 2,
+      user.position.y + user.height / 2,
+      r,
+      0,
+      2 * Math.PI
+    );
+    ctx.closePath();
+    ctx.stroke();
     return this;
   }
 }

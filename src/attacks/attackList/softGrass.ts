@@ -21,8 +21,8 @@ export class SoftGrass extends Attack {
       return this;
     }
     const damage = user.magik / target.immunity;
-    target.hp = Math.max(0, target.hp - damage);
-    user.hp = Math.min(user.maxHp, user.hp + damage / 2);
+    target.takeDamage(damage);
+    user.heal(Math.floor(damage / 2));
     return this;
   }
 
@@ -31,6 +31,9 @@ export class SoftGrass extends Attack {
     target: Playable,
     ctx: CanvasRenderingContext2D
   ): SoftGrass {
+    if (target.hp === 0) {
+      return this;
+    }
     const r = randomInt(user.width / 16, user.width);
     ctx.fillStyle = "rgba(8, 168, 86, 0.5)";
     ctx.beginPath();

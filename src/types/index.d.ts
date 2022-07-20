@@ -83,6 +83,9 @@ interface IPlayable extends Box {
   mana: number;
   path: coordinates[];
   attacks: IAttack[];
+
+  takeDamage(damage: number): IPlayable;
+  heal(heal: number): IPlayable;
 }
 
 interface IAttack {

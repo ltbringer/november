@@ -174,7 +174,7 @@ export class Playable extends Sprite implements IPlayable {
     choice: number | null,
     ctx: CanvasRenderingContext2D
   ): Playable {
-    if (this.hp === 0 || target.hp === 0 || choice === null) {
+    if (this.hp === 0 || choice === null) {
       return this;
     }
     const attack: IAttack = this.attacks[choice];
@@ -188,6 +188,16 @@ export class Playable extends Sprite implements IPlayable {
     attack
       .activate(user, target)
       .render(user, target, ctx);
+    return this;
+  }
+
+  takeDamage(damage: number): Playable {
+    this.hp = Math.max(0, this.hp - damage);
+    return this;
+  }
+
+  heal(bonusHp: number): Playable {
+    this.hp = Math.min(this.maxHp, this.hp + bonusHp);
     return this;
   }
 

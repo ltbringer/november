@@ -31,7 +31,7 @@ export class ToxicDrain extends Attack {
       return this;
     }
     const damage = user.magik / target.immunity;
-    target.hp = Math.max(0, target.hp - damage);
+    target.takeDamage(damage);
     return this;
   }
 
@@ -40,6 +40,9 @@ export class ToxicDrain extends Attack {
     target: Playable,
     ctx: CanvasRenderingContext2D
   ): ToxicDrain {
+    if (target.hp === 0) {
+      return this;
+    }
     const r = randomInt(user.width / 16, user.width);
     ctx.fillStyle = "rgba(180, 112, 224, 0.5)";
     ctx.beginPath();

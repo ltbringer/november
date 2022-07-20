@@ -8,7 +8,7 @@ export class ToxicDrain extends Attack {
       name: "Toxic Drain",
       damage: 10,
       type: "poison",
-      range: 1,
+      range: 16,
       accuracy: 0.8,
       cooldown: 2,
       description:

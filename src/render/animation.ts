@@ -1,10 +1,10 @@
 import { getCtx } from "./canvas";
-import { ENEMY_CHASE_DISTANCE, MOVESPEED } from "../constants";
+import { MOVESPEED } from "../constants";
 import { getColliders, checkCollision } from "./collider";
 import { BoxCollider } from "./collider";
 import { State } from "../state";
 import { Sprite, Playable } from "../sprites";
-import { hasKey, manhattanDistance, randomInt } from "../utils/misc";
+import { hasKey, randomInt } from "../utils/misc";
 
 type MotionControlArgs = {
   ctx: CanvasRenderingContext2D;
@@ -65,10 +65,8 @@ const motionControl = ({
 
   moveMobile(player);
 
-  if (checkCollision(enemy, player, { x: 0, y: 0 }, -16)) {
-    enemy.attack(player, randomInt(0, enemy.attacks.length - 1), ctx);
-    player.attack(enemy, controller.getAttack(), ctx);
-  }
+  enemy.attack(player, randomInt(0, enemy.attacks.length - 1), ctx);
+  player.attack(enemy, controller.getAttack(), ctx);
 };
 
 export const animationBuilder = ({

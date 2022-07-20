@@ -15,6 +15,7 @@ import {
 import { State } from "./state";
 import { ToxicDrain } from "./attacks/attackList/toxicDrain";
 import { SoftGrass } from "./attacks/attackList/softGrass";
+import { CitricHealing } from "./attacks/attackList/citricHealing";
 
 import "./css/style.css";
 import BackgroundSprite from "./img/november.png";
@@ -90,7 +91,7 @@ const main = () => {
       magik: 30,
       armour: 30,
       immunity: 30,
-      attacks: [new SoftGrass()],
+      attacks: [new SoftGrass(), new CitricHealing()],
     }
   );
   const enemy = new Playable(

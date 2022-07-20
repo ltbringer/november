@@ -6,6 +6,7 @@ import {
   coordsMapPosition,
 } from "../render/collider";
 import { PathFinder } from "./pathfinder";
+import { checkCollision } from "../render/collider";
 
 export class Sprite {
   position: coordinates;
@@ -173,13 +174,20 @@ export class Playable extends Sprite implements IPlayable {
     choice: number | null,
     ctx: CanvasRenderingContext2D
   ): Playable {
-    if (this.hp > 0 && target.hp > 0 && choice !== null) {
-      const attack: IAttack = this.attacks[choice];
-      const user = this;
-      attack
-        .activate(user, target)
-        .render(user, target, ctx);
+    if (this.hp === 0 || target.hp === 0 || choice === null) {
+      return this;
     }
+    const attack: IAttack = this.attacks[choice];
+    const inRange = checkCollision(target, this, { x: 0, y: 0 }, -attack.range);
+
+    if (!inRange) {
+      return this;
+    }
+
+    const user = this;
+    attack
+      .activate(user, target)
+      .render(user, target, ctx);
     return this;
   }
 

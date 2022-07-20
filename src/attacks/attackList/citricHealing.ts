@@ -2,13 +2,13 @@ import { Attack } from "../core";
 import { Playable } from "../../sprites";
 import { randomInt } from "../../utils/misc";
 
-export class SoftGrass extends Attack {
+export class CitricHealing extends Attack {
   constructor() {
     super({
-      name: "Soft Grass",
+      name: "Citric Healing",
       damage: 2,
       type: "grass",
-      range: 16,
+      range: 1000,
       accuracy: 0.8,
       cooldown: 2,
       description: "",
@@ -16,13 +16,8 @@ export class SoftGrass extends Attack {
     });
   }
 
-  activate(user: Playable, target: Playable): SoftGrass {
-    if (target.hp === 0) {
-      return this;
-    }
-    const damage = user.magik / target.immunity;
-    target.hp = Math.max(0, target.hp - damage);
-    user.hp = Math.min(user.maxHp, user.hp + damage / 2);
+  activate(user: Playable, target: Playable): CitricHealing {
+    user.hp = Math.min(user.maxHp, user.hp + 10);
     return this;
   }
 
@@ -30,7 +25,7 @@ export class SoftGrass extends Attack {
     user: Playable,
     target: Playable,
     ctx: CanvasRenderingContext2D
-  ): SoftGrass {
+  ): CitricHealing {
     const r = randomInt(user.width / 16, user.width);
     ctx.fillStyle = "rgba(8, 168, 86, 0.5)";
     ctx.beginPath();

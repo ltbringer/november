@@ -6,7 +6,7 @@ export class SoftGrass extends Attack {
   constructor() {
     super({
       name: "Soft Grass",
-      damage: 10,
+      damage: 2,
       type: "grass",
       range: 1,
       accuracy: 0.8,
@@ -22,6 +22,7 @@ export class SoftGrass extends Attack {
     }
     const damage = user.magik / target.immunity;
     target.hp = Math.max(0, target.hp - damage);
+    user.hp = Math.min(user.maxHp, user.hp + damage / 2);
     return this;
   }
 

@@ -27,15 +27,12 @@ type AnimationBuilderArgs = {
 const motionControl = ({
   ctx,
   state,
-  bg,
   player,
   enemy,
-  fg,
   colliders,
 }: MotionControlArgs): void => {
   const { controller } = state;
   let futureKeyState: coordinates = { x: 0, y: 0 };
-  let follow = false;
 
   if (controller.isPressed("up")) {
     futureKeyState.y = MOVESPEED;
@@ -51,8 +48,6 @@ const motionControl = ({
     checkCollision(player, collider, futureKeyState)
   );
 
-  const enemyDistance = manhattanDistance(player.position, enemy.position);
-
   const moveMobile = (mobile: BoxCollider | Sprite) => {
     const movementDirection = controller.getMovement();
     if (!movementDirection) {
@@ -61,6 +56,7 @@ const motionControl = ({
     }
     const { axis, velocity } = controller.motion[movementDirection];
     player.animate(movementDirection);
+    enemy.follow(player, colliders);
 
     if (!playerCollisions && hasKey(mobile.position, axis)) {
       mobile.position[axis] += velocity;
@@ -68,10 +64,6 @@ const motionControl = ({
   };
 
   moveMobile(player);
-  if (enemyDistance <= ENEMY_CHASE_DISTANCE || follow) {
-    enemy.follow(player, colliders);
-    follow = true;
-  }
 
   if (checkCollision(enemy, player, { x: 0, y: 0 }, -16)) {
     enemy.attack(player, "y", ctx);

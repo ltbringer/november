@@ -100,16 +100,39 @@ export class Playable extends Sprite implements IPlayable {
     this.attacks = attacks;
   }
 
-  animate(direction: string): Playable {
-    if (hasKey(this.directions, direction)) {
-      const firstFrame = this.directions[direction];
-      const lastFrame = this.directions[direction] + this.framesPerDirection;
-      this.face =
-        this.face >= firstFrame && this.face < lastFrame
-          ? this.face + this.refreshRate
-          : firstFrame;
+  idleAnimation(): Playable {
+    for (let frameIdx of Object.values(this.directions)) {
+      const face = this.currentFrame / this.frames;
+      if (face < frameIdx) {
+        break;
+      }
+      this.face = frameIdx;
     }
     this.currentFrame = Math.floor(this.face) * this.frames;
+    return this;
+  }
+
+  walkAnimation(direction: string): Playable {
+    if (!hasKey(this.directions, direction)) {
+      return this;
+    }
+
+    const firstFrame = this.directions[direction];
+    const lastFrame = this.directions[direction] + this.framesPerDirection;
+    this.face =
+      this.face >= firstFrame && this.face < lastFrame
+        ? this.face + this.refreshRate
+        : firstFrame;
+    this.currentFrame = Math.floor(this.face) * this.frames;
+    return this;
+  }
+
+  animate(direction: string): Playable {
+    if (direction === "idle") {
+      this.idleAnimation();
+    } else {
+      this.walkAnimation(direction);
+    }
     return this;
   }
 

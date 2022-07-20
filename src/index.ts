@@ -90,9 +90,7 @@ const main = () => {
       magik: 30,
       armour: 30,
       immunity: 30,
-      attacks: {
-        y: new SoftGrass(),
-      },
+      attacks: [new SoftGrass()],
     }
   );
   const enemy = new Playable(
@@ -119,9 +117,7 @@ const main = () => {
       magik: 30,
       armour: 10,
       immunity: 30,
-      attacks: {
-        y: new ToxicDrain(),
-      },
+      attacks: [new ToxicDrain()],
     }
   );
 

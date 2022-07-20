@@ -83,7 +83,7 @@ export class Playable extends Sprite implements IPlayable {
   magik: number;
   mana: number;
   path: coordinates[];
-  attacks: { [key: string]: IAttack };
+  attacks: IAttack[];
 
   constructor(
     spriteArgs: SpriteArgs,
@@ -170,13 +170,15 @@ export class Playable extends Sprite implements IPlayable {
 
   attack(
     target: Playable,
-    choice: string,
+    choice: number | null,
     ctx: CanvasRenderingContext2D
   ): Playable {
-    if (this.hp > 0 && target.hp > 0 && hasKey(this.attacks, choice)) {
+    if (this.hp > 0 && target.hp > 0 && choice !== null) {
       const attack: IAttack = this.attacks[choice];
       const user = this;
-      attack.activate(user, target).render(user, target, ctx);
+      attack
+        .activate(user, target)
+        .render(user, target, ctx);
     }
     return this;
   }

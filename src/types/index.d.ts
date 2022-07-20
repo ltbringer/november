@@ -50,7 +50,7 @@ type PlayableArgs = {
   magik: number;
   armour: number;
   immunity: number;
-  attacks?: { [key: string]: IAttack };
+  attacks: IAttack[];
 };
 
 interface IEffect {
@@ -82,7 +82,7 @@ interface IPlayable extends Box {
   magik: number;
   mana: number;
   path: coordinates[];
-  attacks: { [key: string]: IAttack };
+  attacks: IAttack[];
 }
 
 interface IAttack {

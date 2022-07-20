@@ -62,6 +62,14 @@ export class Controller {
         return null;
     }
 
+    getAttack(): number | null {
+        const attackIndices = this.activeAttacks.map((attackActive, i) => attackActive ? i : -1).filter(attackIdx => attackIdx !== -1);
+        if (attackIndices.length === 1) {
+            return attackIndices[0];
+        }
+        return null;
+    }
+
     press(key: string): void {
         if (hasKey(this.directionBindings, key)) {
             const direction = this.directionBindings[key];

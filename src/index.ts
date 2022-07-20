@@ -23,18 +23,33 @@ import ForegroundSprite from "./img/november_foreground.png";
 import PlayerSprite from "./img/main_char_sprite.png";
 import EnemySprite from "./img/mushroom_boss.png";
 
-const main = () => {
+const loadImage = (image: HTMLImageElement): Promise<HTMLImageElement> => {
+  return new Promise((resolve, reject) => {
+    image.onload = () => {
+      resolve(image);
+    }
+    image.onerror = e => {
+      reject(e)
+    }
+  })
+};
+
+const main = async () => {
   const playerImg = new Image();
   const bgImg = new Image();
   const fgImg = new Image();
   const enemyImg = new Image();
-
+  const images = [playerImg, bgImg, fgImg, enemyImg];
+  
   bgImg.src = BackgroundSprite;
   playerImg.src = PlayerSprite;
   fgImg.src = ForegroundSprite;
   enemyImg.src = EnemySprite;
+  await Promise.all(images.map(loadImage));
 
   const playerFrames = 16;
+
+
 
   const bg = new Sprite({
     position: {
@@ -138,7 +153,7 @@ const main = () => {
   });
   const canvas = mapSetup(MAP_WIDTH, MAP_HEIGHT);
   configureKeyPress(state.controller);
-  animationBuilder({ bg, player, state, canvas, fg, enemies })();
+  animationBuilder({ bg, player, state, canvas, fg, enemies });
 };
 
 main();

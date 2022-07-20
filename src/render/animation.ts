@@ -79,21 +79,18 @@ export const animationBuilder = ({
   canvas,
   fg,
   enemies,
-}: AnimationBuilderArgs): (() => void) => {
+}: AnimationBuilderArgs): void => {
   const ctx: CanvasRenderingContext2D = getCtx(canvas);
-  const sprites: Sprite[] = [bg, player, fg, ...enemies];
-  sprites.forEach((sprite) => sprite.loadImage(ctx));
   const colliders = getColliders();
-
   const animate = (): void => {
     ctx.fillStyle = "#000";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     bg.draw(ctx);
     player.draw(ctx);
-    enemies.forEach((enemy) => enemy.draw(ctx));
+    enemies.forEach(enemy => enemy.draw(ctx));
     fg.draw(ctx);
     window.requestAnimationFrame(animate);
     motionControl({ ctx, state, bg, player, enemies, fg, colliders });
   };
-  return animate;
+  animate();
 };

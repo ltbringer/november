@@ -55,13 +55,6 @@ export class Sprite {
     );
     return this;
   }
-
-  loadImage(ctx: CanvasRenderingContext2D): Sprite {
-    this.image.onload = () => {
-      this.draw(ctx);
-    };
-    return this;
-  }
 }
 
 export class Playable extends Sprite implements IPlayable {

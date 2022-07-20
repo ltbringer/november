@@ -86,9 +86,9 @@ const main = () => {
     },
     {
       hp: 100,
-      hpRegen: 0.001,
+      hpRegen: 1e-4,
       mana: 1000,
-      manaRegen: 0.01,
+      manaRegen: 0.001,
       muscle: 30,
       magik: 30,
       armour: 30,
@@ -96,35 +96,36 @@ const main = () => {
       attacks: [new SoftGrass(), new CitricHealing()],
     }
   );
-  const enemy = new Playable(
-    {
-      position: {
-        x: ENEMY_X_OFFSET,
-        y: ENEMY_Y_OFFSET,
+  const enemyCoords = [{ x: 265, y: 20 }] //, { x: 1500, y: 550 }, { x: 500, y: 500 }];
+
+  const enemies = enemyCoords.map(enemyCoords => {
+    const enemy = new Playable({
+        position: enemyCoords,
+        image: enemyImg,
+        width: enemyImg.width,
+        height: enemyImg.height,
+        zoom: 4,
+        directions: {
+          down: 0,
+          up: 0,
+          left: 0,
+          right: 0,
+        },
       },
-      image: enemyImg,
-      width: enemyImg.width,
-      height: enemyImg.height,
-      zoom: 4,
-      directions: {
-        down: 0,
-        up: 0,
-        left: 0,
-        right: 0,
-      },
-    },
-    {
-      hp: 100,
-      hpRegen: 0.001,
-      mana: 1000,
-      manaRegen: 0.001,
-      muscle: 10,
-      magik: 30,
-      armour: 10,
-      immunity: 30,
-      attacks: [new ToxicDrain()],
-    }
-  );
+      {
+        hp: 100,
+        hpRegen: 1e-4,
+        mana: 1000,
+        manaRegen: 0.001,
+        muscle: 10,
+        magik: 30,
+        armour: 10,
+        immunity: 30,
+        attacks: [new ToxicDrain()],
+      }
+    )
+    return enemy;
+  });
 
   const state = new State({
     controller: {
@@ -137,7 +138,7 @@ const main = () => {
   });
   const canvas = mapSetup(MAP_WIDTH, MAP_HEIGHT);
   configureKeyPress(state.controller);
-  animationBuilder({ bg, player, state, canvas, fg, enemy })();
+  animationBuilder({ bg, player, state, canvas, fg, enemies })();
 };
 
 main();

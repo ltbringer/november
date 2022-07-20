@@ -11,14 +11,15 @@ type MotionControlArgs = {
   state: State;
   bg: Sprite;
   player: Playable;
-  enemy: Playable;
+  enemies: Playable[];
   fg: Sprite;
   colliders: BoxCollider[];
 };
+
 type AnimationBuilderArgs = {
   bg: Sprite;
   player: Playable;
-  enemy: Playable;
+  enemies: Playable[];
   fg: Sprite;
   state: State;
   canvas: HTMLCanvasElement;
@@ -28,7 +29,7 @@ const motionControl = ({
   ctx,
   state,
   player,
-  enemy,
+  enemies,
   colliders,
 }: MotionControlArgs): void => {
   const { controller } = state;
@@ -56,7 +57,7 @@ const motionControl = ({
     }
     const { axis, velocity } = controller.motion[movementDirection];
     player.animate(movementDirection);
-    enemy.follow(player, colliders);
+    enemies.forEach(enemy => enemy.follow(player, colliders))
 
     if (!playerCollisions && hasKey(mobile.position, axis)) {
       mobile.position[axis] += velocity;
@@ -65,8 +66,10 @@ const motionControl = ({
 
   moveMobile(player);
 
-  enemy.regen().attack(player, randomInt(0, enemy.attacks.length - 1), ctx);
-  player.regen().attack(enemy, controller.getAttack(), ctx);
+  enemies.forEach((enemy: Playable) => {
+    enemy.regen().attack(player, randomInt(0, enemy.attacks.length - 1), ctx);
+    player.regen().attack(enemy, controller.getAttack(), ctx);
+  })
 };
 
 export const animationBuilder = ({
@@ -75,10 +78,10 @@ export const animationBuilder = ({
   state,
   canvas,
   fg,
-  enemy,
+  enemies,
 }: AnimationBuilderArgs): (() => void) => {
   const ctx: CanvasRenderingContext2D = getCtx(canvas);
-  const sprites: Sprite[] = [bg, player, fg, enemy];
+  const sprites: Sprite[] = [bg, player, fg, ...enemies];
   sprites.forEach((sprite) => sprite.loadImage(ctx));
   const colliders = getColliders();
 
@@ -87,10 +90,10 @@ export const animationBuilder = ({
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     bg.draw(ctx);
     player.draw(ctx);
-    enemy.draw(ctx);
+    enemies.forEach((enemy) => enemy.draw(ctx));
     fg.draw(ctx);
     window.requestAnimationFrame(animate);
-    motionControl({ ctx, state, bg, player, enemy, fg, colliders });
+    motionControl({ ctx, state, bg, player, enemies, fg, colliders });
   };
   return animate;
 };

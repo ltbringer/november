@@ -227,9 +227,9 @@ export class Playable extends Sprite implements IPlayable {
   }
 
   hpBarColor() {
-    if (this.hp > 50) {
+    if (this.hp / this.maxHp > 0.5) {
       return "#65d670";
-    } else if (this.hp > 20) {
+    } else if (this.hp / this.maxHp > 0.2) {
       return "#ffd700";
     } else {
       return "#ff0000";

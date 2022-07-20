@@ -45,7 +45,9 @@ type SpriteArgs = {
 
 type PlayableArgs = {
   hp: number;
+  hpRegen: number;
   mana: number;
+  manaRegen: number;
   muscle: number;
   magik: number;
   armour: number;
@@ -81,18 +83,23 @@ interface IPlayable extends Box {
   muscle: number;
   magik: number;
   mana: number;
+  maxMana: number;
+  manaRegen: number;
   path: coordinates[];
   attacks: IAttack[];
 
   takeDamage(damage: number): IPlayable;
   heal(heal: number): IPlayable;
+  reduceMana?(cost: number): IPlayable;
 }
 
 interface IAttack {
   name: string;
   damage: number;
+  heal?: number;
   type: string;
   range: number;
+  cost: number;
   accuracy: number;
   cooldown: number;
   description: string;

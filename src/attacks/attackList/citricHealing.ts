@@ -6,9 +6,11 @@ export class CitricHealing extends Attack {
   constructor() {
     super({
       name: "Citric Healing",
-      damage: 2,
+      damage: 0,
+      heal: 10,
       type: "grass",
       range: 1000,
+      cost: 50,
       accuracy: 0.8,
       cooldown: 2,
       description: "",
@@ -17,7 +19,7 @@ export class CitricHealing extends Attack {
   }
 
   activate(user: Playable, target: Playable): CitricHealing {
-    user.heal(this.damage);
+    user.heal(this.heal).reduceMana(this.cost);
     return this;
   }
 

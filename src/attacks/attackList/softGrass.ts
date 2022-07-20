@@ -9,6 +9,7 @@ export class SoftGrass extends Attack {
       damage: 2,
       type: "grass",
       range: 16,
+      cost: 20,
       accuracy: 0.8,
       cooldown: 2,
       description: "",
@@ -17,12 +18,11 @@ export class SoftGrass extends Attack {
   }
 
   activate(user: Playable, target: Playable): SoftGrass {
-    if (target.hp === 0) {
-      return this;
-    }
     const damage = user.magik / target.immunity;
     target.takeDamage(damage);
-    user.heal(Math.floor(damage / 2));
+    user
+      .heal(Math.floor(damage / 2))
+      .reduceMana(this.cost);
     return this;
   }
 
@@ -31,9 +31,6 @@ export class SoftGrass extends Attack {
     target: Playable,
     ctx: CanvasRenderingContext2D
   ): SoftGrass {
-    if (target.hp === 0) {
-      return this;
-    }
     const r = randomInt(user.width / 16, user.width);
     ctx.fillStyle = "rgba(8, 168, 86, 0.5)";
     ctx.beginPath();

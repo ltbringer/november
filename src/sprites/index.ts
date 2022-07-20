@@ -78,22 +78,38 @@ export class Playable extends Sprite implements IPlayable {
   refreshRate: number;
   maxHp: number;
   hp: number;
+  hpRegen: number;
   armour: number;
   immunity: number;
   muscle: number;
   magik: number;
+  maxMana: number;
   mana: number;
+  manaRegen: number;
   path: coordinates[];
   attacks: IAttack[];
 
   constructor(
     spriteArgs: SpriteArgs,
-    { hp, mana, muscle, magik, armour, immunity, attacks }: PlayableArgs
+    {
+      hp,
+      hpRegen,
+      mana,
+      manaRegen,
+      muscle,
+      magik,
+      armour,
+      immunity,
+      attacks,
+    }: PlayableArgs
   ) {
     super(spriteArgs);
     this.maxHp = hp;
     this.hp = hp;
+    this.hpRegen = hpRegen;
+    this.maxMana = mana;
     this.mana = mana;
+    this.manaRegen = manaRegen;
     this.muscle = muscle;
     this.magik = magik;
     this.refreshRate = this.framesPerDirection / (this.frames * 2);
@@ -143,6 +159,15 @@ export class Playable extends Sprite implements IPlayable {
     return this.hp > 0;
   }
 
+  regen(): Playable {
+    if (!this.alive()) {
+      return this;
+    }
+    this.hp = Math.min(this.maxHp, this.hp + this.maxHp * this.hpRegen);
+    this.mana = Math.min(this.maxMana, this.mana + this.maxMana * this.manaRegen);
+    return this;
+  }
+
   follow(target: Playable, colliders: BoxCollider[]): Playable {
     if (!target.alive()) {
       return this;
@@ -180,14 +205,16 @@ export class Playable extends Sprite implements IPlayable {
     const attack: IAttack = this.attacks[choice];
     const inRange = checkCollision(target, this, { x: 0, y: 0 }, -attack.range);
 
-    if (!inRange) {
+    if (
+      !inRange ||
+      (attack.damage > 0 && target.hp === 0) ||
+      attack.cost > this.mana
+    ) {
       return this;
     }
 
     const user = this;
-    attack
-      .activate(user, target)
-      .render(user, target, ctx);
+    attack.activate(user, target).render(user, target, ctx);
     return this;
   }
 
@@ -198,6 +225,11 @@ export class Playable extends Sprite implements IPlayable {
 
   heal(bonusHp: number): Playable {
     this.hp = Math.min(this.maxHp, this.hp + bonusHp);
+    return this;
+  }
+
+  reduceMana(manaCost: number): Playable {
+    this.mana = Math.max(0, this.mana - manaCost);
     return this;
   }
 
@@ -237,7 +269,7 @@ export class Playable extends Sprite implements IPlayable {
 
   drawMana(ctx: CanvasRenderingContext2D): Playable {
     const BarMaxWidth = this.width;
-    const currentMana = (this.mana / 100) * BarMaxWidth;
+    const currentMana = (this.mana / this.maxMana) * BarMaxWidth;
     const x = this.position.x;
     const y = this.position.y - 20 + BAR_OFFSET + 5 + BAR_OFFSET;
     const width = currentMana;

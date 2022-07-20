@@ -6,10 +6,11 @@ export class ToxicDrain extends Attack {
   constructor() {
     super({
       name: "Toxic Drain",
-      damage: 10,
+      damage: 20,
       type: "poison",
       range: 16,
       accuracy: 0.8,
+      cost: 20,
       cooldown: 2,
       description:
         "The user drains the target's HP and releases toxic fumes. Has 15% chance of poisoning the target.",
@@ -27,11 +28,9 @@ export class ToxicDrain extends Attack {
   }
 
   activate(user: IPlayable, target: IPlayable): ToxicDrain {
-    if (target.hp === 0) {
-      return this;
-    }
     const damage = user.magik / target.immunity;
     target.takeDamage(damage);
+    user.reduceMana(this.cost);
     return this;
   }
 
@@ -40,9 +39,6 @@ export class ToxicDrain extends Attack {
     target: Playable,
     ctx: CanvasRenderingContext2D
   ): ToxicDrain {
-    if (target.hp === 0) {
-      return this;
-    }
     const r = randomInt(user.width / 16, user.width);
     ctx.fillStyle = "rgba(180, 112, 224, 0.5)";
     ctx.beginPath();

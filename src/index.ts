@@ -86,7 +86,9 @@ const main = () => {
     },
     {
       hp: 100,
-      mana: 100,
+      hpRegen: 0.001,
+      mana: 1000,
+      manaRegen: 0.01,
       muscle: 30,
       magik: 30,
       armour: 30,
@@ -113,7 +115,9 @@ const main = () => {
     },
     {
       hp: 100,
-      mana: 100,
+      hpRegen: 0.001,
+      mana: 1000,
+      manaRegen: 0.001,
       muscle: 10,
       magik: 30,
       armour: 10,

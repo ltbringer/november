@@ -65,8 +65,8 @@ const motionControl = ({
 
   moveMobile(player);
 
-  enemy.attack(player, randomInt(0, enemy.attacks.length - 1), ctx);
-  player.attack(enemy, controller.getAttack(), ctx);
+  enemy.regen().attack(player, randomInt(0, enemy.attacks.length - 1), ctx);
+  player.regen().attack(enemy, controller.getAttack(), ctx);
 };
 
 export const animationBuilder = ({

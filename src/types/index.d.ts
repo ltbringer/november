@@ -5,6 +5,7 @@ type DirectionKeyArgs = {
   down: string;
   left: string;
   right: string;
+  attacks: string[];
 };
 type DirectionFaceArgs = {
   up: number;

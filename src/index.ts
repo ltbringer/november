@@ -113,7 +113,7 @@ const main = () => {
       },
     },
     {
-      hp: 80,
+      hp: 100,
       mana: 100,
       muscle: 10,
       magik: 30,

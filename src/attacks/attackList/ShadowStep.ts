@@ -23,8 +23,8 @@ export class ShadowStep extends Attack {
       .reduceMana(this.cost);
     const step = 100;
     user.position = {
-      x: target.position.x + randomInt(-step, step),
-      y: target.position.y + randomInt(-step, step)
+      x: user.position.x + randomInt(-step, step),
+      y: user.position.y + randomInt(-step, step)
     };
     return this;
   }

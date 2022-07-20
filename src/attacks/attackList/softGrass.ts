@@ -6,7 +6,7 @@ export class SoftGrass extends Attack {
   constructor() {
     super({
       name: "Soft Grass",
-      damage: 2,
+      damage: 10,
       type: "grass",
       range: 16,
       cost: 20,
@@ -18,7 +18,7 @@ export class SoftGrass extends Attack {
   }
 
   activate(user: Playable, target: Playable): SoftGrass {
-    const damage = user.magik / target.immunity;
+    const damage = (user.magik / target.immunity) * this.damage;
     target.takeDamage(damage);
     user
       .heal(Math.floor(damage / 2))

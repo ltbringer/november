@@ -28,7 +28,7 @@ export class ToxicDrain extends Attack {
   }
 
   activate(user: IPlayable, target: IPlayable): ToxicDrain {
-    const damage = user.magik / target.immunity;
+    const damage = (user.magik / target.immunity) * this.damage;
     target.takeDamage(damage);
     user.reduceMana(this.cost);
     return this;

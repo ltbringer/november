@@ -19,7 +19,9 @@ export class CitricHealing extends Attack {
   }
 
   activate(user: Playable, target: Playable): CitricHealing {
-    user.heal(this.heal).reduceMana(this.cost);
+    user
+      .heal(this.heal)
+      .reduceMana(this.cost);
     return this;
   }
 

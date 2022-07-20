@@ -17,7 +17,7 @@ export const ENEMY_Y_OFFSET: number = 20;
 export const ENEMY_CHASE_DISTANCE: number = CHAR_WIDTH * 50;
 
 export const IS_COLLIDER: number = 955;
-export const PLAYER_MOVESPEED: number = 4;
+export const MOVESPEED: number = 4;
 export const TILES: { rows: number, cols: number } = {
     rows: 40,
     cols: 30,

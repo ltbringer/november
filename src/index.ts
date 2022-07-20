@@ -16,6 +16,7 @@ import { State } from "./state";
 import { ToxicDrain } from "./attacks/attackList/toxicDrain";
 import { SoftGrass } from "./attacks/attackList/softGrass";
 import { CitricHealing } from "./attacks/attackList/citricHealing";
+import { PhotonBeam } from "./attacks/attackList/photonBeam";
 
 import "./css/style.css";
 import BackgroundSprite from "./img/november.png";
@@ -100,15 +101,15 @@ const main = async () => {
       },
     },
     {
-      hp: 100,
+      hp: 1000,
       hpRegen: 1e-4,
       mana: 1000,
       manaRegen: 0.001,
       muscle: 30,
-      magik: 30,
+      magik: 15,
       armour: 30,
       immunity: 30,
-      attacks: [new SoftGrass(), new CitricHealing()],
+      attacks: [new SoftGrass(), new CitricHealing(), new PhotonBeam()],
     }
   );
   const enemyCoords = [{ x: 265, y: 20 }] //, { x: 1500, y: 550 }, { x: 500, y: 500 }];
@@ -128,13 +129,13 @@ const main = async () => {
         },
       },
       {
-        hp: 100,
+        hp: 1000,
         hpRegen: 1e-4,
         mana: 1000,
         manaRegen: 0.001,
         muscle: 10,
-        magik: 30,
-        armour: 10,
+        magik: 10,
+        armour: 35,
         immunity: 30,
         attacks: [new ToxicDrain()],
       }
